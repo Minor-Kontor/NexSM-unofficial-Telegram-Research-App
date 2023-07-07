@@ -1,0 +1,11 @@
+pandas
+matplotlib
+wordcloud
+telethon
+cryptg
+emoji
+pytz
+networkx
+scipy
+guppy3
+tqdm
