@@ -47,7 +47,7 @@ async def login_accounts():
     return api_values.keys()
 
 
-async def main(week_arg, languages, woi=False, log_heap=False):
+async def main(week_arg, login, languages, woi=False, log_heap=False):
     if woi:
         log.info('The frequencies of words are being recalculated. This can take a few minutes.')
         words_of_interests = fh.get_all_words_of_interest()
@@ -68,7 +68,13 @@ async def main(week_arg, languages, woi=False, log_heap=False):
     if labels is None:
         log.error(
             f"Either there was an issue with the formatting of the given api_values or there were none given. Exiting the application..")
+        return
+    else:
+        log.info(f'Successfully logged into all accounts.')
 
+    if login:
+        for acc in labels:
+            await ret.disconnect(acc)
         return
 
     time.sleep(30)
@@ -95,6 +101,9 @@ if __name__ == '__main__':
     parser.add_argument('--setup', nargs='*',
                         help='<Optional> Insert a list of languages to setup the application.\n\tExample: --setup english german ukrainian',
                         default=None)
+    parser.add_argument('--login',
+                        help="<Optional> A flag to go through the login process for to all accounts. \n\tExample: --login",
+                        action='store_true')
     parser.add_argument('--week',
                         help="<Optional> A date string in the form '%%Y-%%m-%%d' to specify the week to analyze.\n\tExample: --week 2022-02-14",
                         type=str, default=None)
@@ -107,7 +116,7 @@ if __name__ == '__main__':
 
     fh.setup_log()
     try:
-        asyncio.run(main(args.week, args.setup, args.woi, args.log_heap))
+        asyncio.run(main(args.week, args.login, args.setup, args.woi, args.log_heap))
     except Exception as e:
         log.error('The Research-App encountered an unexpected issue and stopped execution.')
         log.error(f'\n+++++++++++++++++++\n{traceback.format_exc()}\n+++++++++++++++++++')

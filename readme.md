@@ -29,6 +29,9 @@ If you want to use the application for multiple accounts you need to add a line 
 After you have modified the `api_values.csv` the application is almost ready to run for the first time. To run the setup of the application you need to run `python main.py --setup [LANGUAGES]`. You should specify language groups that you wish to analyze seperated by whitespaces. E.g.: `python main.py --setup german english ukrainian persian`.  
 This will scan through all accounts mentioned in the `api_values.csv` and create additional input files for all given languages.
 
+When the application is executed for the first time the Telegram-API will ask for the phone numbers related to the accounts and send a login code to the related account.
+When the application is logged out for any reason the login process can be started exclusively with the flag `--login`.
+
 ### Additional inputs
 
 The `inputs` folder contains input files for each language and input files that apply to all languages.
